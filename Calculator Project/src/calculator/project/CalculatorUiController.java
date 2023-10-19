@@ -84,7 +84,9 @@ public class CalculatorUiController implements Initializable {
     private Button sin;
     @FXML
     private Label resultScreen;
-
+    @FXML
+    private Label warnLabel;
+    
     
     //Anlık ekranda yazması gereken sayı(Son hali ilk sayı olarak kayıt edilecek)
     Double tmpNumber = 0.0;
@@ -94,6 +96,15 @@ public class CalculatorUiController implements Initializable {
     //Virgülden sonraki basamak sayısını tutacak
     int decimalCounter = 1;
     
+    
+    String operation = "";
+    Double firstNum = 0.0;
+    Double secondNum = 0.0;
+    Double result = null;
+    boolean oneNumberCalc = false;
+    Double ansNum = 0.0;
+    boolean isResultOnScreen = false;
+  
     /*-----------------------------------------------------------------------------------------------------------------*/
     //Calculation yaparken iki tane sayı ve tek sayı gerektiren calculationlara göre ayırmamız lazım
     ArrayList<String> oneCalculation = new ArrayList<>();
@@ -125,27 +136,120 @@ public class CalculatorUiController implements Initializable {
 
     @FXML
     private void plusOnClick(ActionEvent event) {
+        if(this.operation.equals("")){
+           this.operation = "+";
+           this.firstNum = this.tmpNumber;
+           this.tmpNumber = 0.0;
+           this.dotClicket = false;
+           this.decimalCounter = 1;
+           this.warnLabel.setText("");
+           
+        }
+        else{
+            this.warnLabel.setText("You are on " + this.operation + " operation riht now. For make another operation click reset.");
+        }
+        if(this.isResultOnScreen){
+            this.warnLabel.setText("Please enter a number before click an operation");
+        }
+        
     }
 
     @FXML
     private void minusOnClick(ActionEvent event) {
+        if(this.operation.equals("")){
+           this.operation = "-";
+           this.firstNum = this.tmpNumber;
+           this.tmpNumber = 0.0;       
+           this.dotClicket = false;
+           this.decimalCounter = 1;
+           this.warnLabel.setText("");
+        }
+        else{
+            this.warnLabel.setText("You are on " + this.operation + " operation riht now. For make another operation click reset.");
+        }
+        if(this.isResultOnScreen){
+            this.warnLabel.setText("Please enter a number before click an operation");
+        }
     }
 
     @FXML
     private void timesOnClick(ActionEvent event) {
+        if(this.operation.equals("")){
+           this.operation = "x";
+           this.firstNum = this.tmpNumber;
+           this.tmpNumber = 0.0;
+           this.dotClicket = false;
+           this.decimalCounter = 1;
+           this.warnLabel.setText("");
+           
+        }
+        else{
+            this.warnLabel.setText("You are on " + this.operation + " operation riht now. For make another operation click reset.");
+        }
+        if(this.isResultOnScreen){
+            this.warnLabel.setText("Please enter a number before click an operation");
+        }
         
     }
 
     @FXML
     private void devideOnClick(ActionEvent event) {
+        if(this.operation.equals("")){
+           this.operation = "/";
+           this.firstNum = this.tmpNumber;
+           this.tmpNumber = 0.0;
+           this.dotClicket = false;
+           this.decimalCounter = 1;
+           this.warnLabel.setText("");
+          
+        }
+        else{
+            this.warnLabel.setText("You are on " + this.operation + " operation riht now. For make another operation click reset.");
+        }
+        if(this.isResultOnScreen){
+            this.warnLabel.setText("Please enter a number before click an operation");
+        }
+    }
+    
+    @FXML
+    private void powerOnClick(ActionEvent event) {
+        if(this.operation.equals("")){
+           this.operation = "x^y";
+           this.firstNum = this.tmpNumber;
+           this.tmpNumber = 0.0;
+           this.dotClicket = false;
+           this.decimalCounter = 1;
+           this.warnLabel.setText("");
+          
+        }
+        else{
+            this.warnLabel.setText("You are on " + this.operation + " operation riht now. For make another operation click reset.");
+        }
+        if(this.isResultOnScreen){
+            this.warnLabel.setText("Please enter a number before click an operation");
+        }
     }
 
     @FXML
     private void resetOnClick(ActionEvent event) {
+        
+                this.firstNum = 0.0;
+                this.secondNum = 0.0;
+                this.operation = "";
+                this.dotClicket = false;
+                this.decimalCounter = 1;
+                this.tmpNumber = 0.0;
+                this.warnLabel.setText("");
+                this.resultScreen.setText(this.firstNum.toString());
+                this.isResultOnScreen = false;
     }
 
     @FXML
     private void percentOnClick(ActionEvent event) {
+        if(this.isResultOnScreen){
+            this.warnLabel.setText("Please enter a number before click an operation");
+        }
+        //----------------------------DEVAM-------------------------------------------------
     }
 
     @FXML
@@ -158,6 +262,8 @@ public class CalculatorUiController implements Initializable {
         else{
         this.tmpNumber = this.tmpNumber*10 +9;
         this.resultScreen.setText(this.tmpNumber.toString());}
+        
+        this.isResultOnScreen = false;
     }
 
     @FXML
@@ -169,6 +275,7 @@ public class CalculatorUiController implements Initializable {
         else{
         this.tmpNumber = this.tmpNumber*10 + 6;
         this.resultScreen.setText(this.tmpNumber.toString());}
+        this.isResultOnScreen = false;
     }
 
     @FXML
@@ -180,16 +287,110 @@ public class CalculatorUiController implements Initializable {
         else{
         this.tmpNumber = this.tmpNumber*10 +3;
         this.resultScreen.setText(this.tmpNumber.toString());}
+        this.isResultOnScreen = false;
     }
 
     @FXML
     private void equalOnAction(ActionEvent event) {
+        if(this.twoCalculation.contains(this.operation) ){
+            this.secondNum = this.tmpNumber;
+            System.out.println(this.firstNum +" " + this.operation + " " +this.secondNum);
+            if(this.operation.equals("+")){
+                this.result = this.firstNum + this.secondNum;
+                this.resultScreen.setText(this.result.toString());
+                this.firstNum = 0.0;
+                this.secondNum = 0.0;
+                this.operation = "";
+                this.dotClicket = false;
+                this.decimalCounter = 1;
+                this.tmpNumber = 0.0;
+                this.warnLabel.setText("");
+                this.ansNum = this.result;
+                this.isResultOnScreen = true;
+                
+                
+                
+                
+                
+                
+            }
+            else if(this.operation.equals("-")){
+                this.result = this.firstNum - this.secondNum;
+                this.resultScreen.setText(this.result.toString());
+                this.firstNum = 0.0;
+                this.secondNum = 0.0;
+                this.operation = "";
+                this.dotClicket = false;
+                this.decimalCounter = 1;
+                this.tmpNumber = 0.0;
+                this.warnLabel.setText("");
+                this.ansNum = this.result;
+                this.isResultOnScreen = true;
+                
+            
+            }
+            
+            else if(this.operation.equals("x")){
+                this.result = this.firstNum * this.secondNum;
+                this.resultScreen.setText(this.result.toString());
+                this.firstNum = 0.0;
+                this.secondNum = 0.0;
+                this.operation = "";
+                this.dotClicket = false;
+                this.decimalCounter = 1;
+                this.tmpNumber = 0.0;
+                this.warnLabel.setText("");
+                this.ansNum = this.result;
+                this.isResultOnScreen = true;
+                
+            
+            }
+            else if(this.operation.equals("/")){
+                this.result = this.firstNum / this.secondNum;
+                this.resultScreen.setText(this.result.toString());
+                this.firstNum = 0.0;
+                this.secondNum = 0.0;
+                this.operation = "";
+                this.dotClicket = false;
+                this.decimalCounter = 1;
+                this.tmpNumber = 0.0;
+                this.warnLabel.setText("");
+                this.isResultOnScreen = true;
+            
+            }
+            
+            else if(this.operation.equals("x^y")){
+                this.result = Math.pow( this.firstNum , this.secondNum);
+                this.resultScreen.setText(this.result.toString());
+                this.firstNum = 0.0;
+                this.secondNum = 0.0;
+                this.operation = "";
+                this.dotClicket = false;
+                this.decimalCounter = 1;
+                this.tmpNumber = 0.0;
+                this.warnLabel.setText("");
+                this.ansNum = this.result;
+                this.isResultOnScreen = true;
+            
+            }
+            else{
+                this.warnLabel.setText("Enter an operation!!");
+            
+            }
+            
+        }else if(this.oneCalculation.contains(this.operation)){
+            //---------------------------------------------------------Tek sayılı işlemler ile tamamlanacak-----------------------------------------------------------
+        
+        }else{
+            this.warnLabel.setText("Enter an operation!!");
+        }
     }
 
     @FXML
     private void piNumOnClick(ActionEvent event) {
         this.tmpNumber += Math.PI;
         this.resultScreen.setText(this.tmpNumber.toString());
+        this.isResultOnScreen = false;
     }
 
     @FXML
@@ -202,6 +403,7 @@ public class CalculatorUiController implements Initializable {
         this.tmpNumber = this.tmpNumber*10 +8;
         
         this.resultScreen.setText(this.tmpNumber.toString());}
+        this.isResultOnScreen = false;
     }
 
     @FXML
@@ -213,6 +415,7 @@ public class CalculatorUiController implements Initializable {
         else{
         this.tmpNumber = this.tmpNumber*10 +5;
         this.resultScreen.setText(this.tmpNumber.toString());}
+        this.isResultOnScreen = false;
     }
 
     @FXML
@@ -225,6 +428,7 @@ public class CalculatorUiController implements Initializable {
         else{
         this.tmpNumber = this.tmpNumber*10 +2;
         this.resultScreen.setText(this.tmpNumber.toString());}
+        this.isResultOnScreen = false;
     }
 
     @FXML
@@ -236,10 +440,15 @@ public class CalculatorUiController implements Initializable {
     private void eNumOnClick(ActionEvent event) {
         this.tmpNumber += Math.E;
         this.resultScreen.setText(this.tmpNumber.toString());
+        this.isResultOnScreen = false;
     }
 
     @FXML
     private void lnOnClick(ActionEvent event) {
+        if(this.isResultOnScreen){
+            this.warnLabel.setText("Please enter a number before click an operation");
+        }
+        //------------------------------------------------DEVAM------------------------------------
     }
 
     @FXML
@@ -255,6 +464,11 @@ public class CalculatorUiController implements Initializable {
 
     @FXML
     private void logOnClick(ActionEvent event) {
+        if(this.isResultOnScreen){
+            this.warnLabel.setText("Please enter a number before click an operation");
+        }
+        //------------------------------------------------------------DEVAM----------------------------------------------
+        
     }
 
     @FXML
@@ -281,6 +495,10 @@ public class CalculatorUiController implements Initializable {
 
     @FXML
     private void sqrRootOnClick(ActionEvent event) {
+        if(this.isResultOnScreen){
+            this.warnLabel.setText("Please enter a number before click an operation");
+        }
+        //--------------------------------------------DEVAM--------------------------------
     }
 
     @FXML
@@ -294,28 +512,65 @@ public class CalculatorUiController implements Initializable {
         this.resultScreen.setText(this.tmpNumber.toString());}
     }
 
-    @FXML
-    private void powerOnClick(ActionEvent event) {
-    }
+    
 
     @FXML
     private void answerOnClick(ActionEvent event) {
+        
+        if(this.operation.equals("") && this.result == null){
+            this.warnLabel.setText("There was no answer");
+        }
+        
+        if(!this.operation.equals("") && this.result != null){
+            this.tmpNumber += this.ansNum;
+             this.resultScreen.setText(this.tmpNumber.toString());
+            
+            System.out.println(this.firstNum+" "+this.secondNum + " ans number" + this.ansNum);
+        }
+        if(!this.operation.equals("") && this.result == null){
+             this.warnLabel.setText("There was no answer");
+        }
+        if(this.operation.equals("") && this.result != null){
+            this.tmpNumber += this.ansNum;
+            
+            this.resultScreen.setText(this.tmpNumber.toString());
+            
+            System.out.println(this.firstNum+" "+this.secondNum + " ans number" + this.ansNum);
+            
+        }
+        
     }
 
     @FXML
     private void cotOnClick(ActionEvent event) {
+        if(this.isResultOnScreen){
+            this.warnLabel.setText("Please enter a number before click an operation");
+        }
+     //--------------------------------------------DEVAM-------------------------------------
     }
 
     @FXML
     private void tanOnClick(ActionEvent event) {
+        if(this.isResultOnScreen){
+            this.warnLabel.setText("Please enter a number before click an operation");
+        }
+        //--------------------------------------------DEVAM-------------------------------------
     }
 
     @FXML
     private void cosOnClick(ActionEvent event) {
+        if(this.isResultOnScreen){
+            this.warnLabel.setText("Please enter a number before click an operation");
+        }
+        //--------------------------------------------DEVAM-------------------------------------
     }
 
     @FXML
     private void sinOnClick(ActionEvent event) {
+        if(this.isResultOnScreen){
+            this.warnLabel.setText("Please enter a number before click an operation");
+        }
+        //--------------------------------------------DEVAM-------------------------------------
     }
     
 }
