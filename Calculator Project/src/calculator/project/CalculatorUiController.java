@@ -86,17 +86,15 @@ public class CalculatorUiController implements Initializable {
     private Label resultScreen;
     @FXML
     private Label warnLabel;
-    
-    
+
     //Anlık ekranda yazması gereken sayı(Son hali ilk sayı olarak kayıt edilecek)
     Double tmpNumber = 0.0;
-    
+
     //Noktaya basılıp basılmadığını tutacak
     boolean dotClicket = false;
     //Virgülden sonraki basamak sayısını tutacak
     int decimalCounter = 1;
-    
-    
+
     String operation = "";
     Double firstNum = 0.0;
     Double secondNum = 0.0;
@@ -104,473 +102,850 @@ public class CalculatorUiController implements Initializable {
     boolean oneNumberCalc = false;
     Double ansNum = 0.0;
     boolean isResultOnScreen = false;
-  
+
     /*-----------------------------------------------------------------------------------------------------------------*/
-    //Calculation yaparken iki tane sayı ve tek sayı gerektiren calculationlara göre ayırmamız lazım
-    ArrayList<String> oneCalculation = new ArrayList<>();
-    ArrayList<String> twoCalculation = new ArrayList<>();        
+    //Calculation yaparken iki tane sayı ve tek sayı gerektiren calculationlara göre ayırmamız lazım , ayrıca sayı işlemden önce mi sonra mı gelecek. Ona göre 3 gruba ayırdık.
+    ArrayList<String> oneFirCalculation = new ArrayList<>();
+    ArrayList<String> oneSecCalculation = new ArrayList<>();
+    ArrayList<String> twoCalculation = new ArrayList<>();
+
     /*-----------------------------------------------------------------------------------------------------------------*/
-    
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        this.oneCalculation.add("sin");
-        this.oneCalculation.add("cos");
-        this.oneCalculation.add("tan");
-        this.oneCalculation.add("cot");
-        this.oneCalculation.add("sqrt");
-        this.oneCalculation.add("log");
-        this.oneCalculation.add("ln");
-        this.oneCalculation.add("fac");
-        this.oneCalculation.add("per");
-        
+
+        //Tek sayı ama işlem operatörünün sayıdan önce girilmesi gereken işlemler
+        this.oneSecCalculation.add("sin");
+        this.oneSecCalculation.add("cos");
+        this.oneSecCalculation.add("tan");
+        this.oneSecCalculation.add("cot");
+        this.oneSecCalculation.add("log");
+        this.oneSecCalculation.add("ln");
+
+        //Tek sayı ama işlem operatörünün sayıdan sonra girilmesi gereken işlemler
+        this.oneFirCalculation.add("fac");
+        this.oneFirCalculation.add("per");
+        this.oneFirCalculation.add("sqrt");
+
+        //İki tanse sayı gerektiren işlemler
         this.twoCalculation.add("+");
         this.twoCalculation.add("-");
         this.twoCalculation.add("x");
         this.twoCalculation.add("/");
         this.twoCalculation.add("x^y");
-        
-    }    
+
+    }
 
     @FXML
     private void plusOnClick(ActionEvent event) {
-        if(this.operation.equals("")){
-           this.operation = "+";
-           this.firstNum = this.tmpNumber;
-           this.tmpNumber = 0.0;
-           this.dotClicket = false;
-           this.decimalCounter = 1;
-           this.warnLabel.setText("");
-           
+        try {
+            if (this.operation.equals("")) {
+                this.operation = "+";
+                this.firstNum = this.tmpNumber;
+                this.tmpNumber = 0.0;
+                this.dotClicket = false;
+                this.decimalCounter = 1;
+                this.warnLabel.setText("");
+
+            } else {
+                this.warnLabel.setText("You are on " + this.operation + " operation riht now. For make another operation click reset.");
+            }
+            if (this.isResultOnScreen) {
+                this.warnLabel.setText("Please enter a number before click an operation");
+            }
+        } catch (Exception e) {
+            this.warnLabel.setText("Something went wrong");
+
         }
-        else{
-            this.warnLabel.setText("You are on " + this.operation + " operation riht now. For make another operation click reset.");
-        }
-        if(this.isResultOnScreen){
-            this.warnLabel.setText("Please enter a number before click an operation");
-        }
-        
+
     }
 
     @FXML
     private void minusOnClick(ActionEvent event) {
-        if(this.operation.equals("")){
-           this.operation = "-";
-           this.firstNum = this.tmpNumber;
-           this.tmpNumber = 0.0;       
-           this.dotClicket = false;
-           this.decimalCounter = 1;
-           this.warnLabel.setText("");
+
+        try {
+            if (this.operation.equals("")) {
+                this.operation = "-";
+                this.firstNum = this.tmpNumber;
+                this.tmpNumber = 0.0;
+                this.dotClicket = false;
+                this.decimalCounter = 1;
+                this.warnLabel.setText("");
+            } else {
+                this.warnLabel.setText("You are on " + this.operation + " operation riht now. For make another operation click reset.");
+            }
+            if (this.isResultOnScreen) {
+                this.warnLabel.setText("Please enter a number before click an operation");
+            }
+        } catch (Exception e) {
+            this.warnLabel.setText("Something went wrong");
         }
-        else{
-            this.warnLabel.setText("You are on " + this.operation + " operation riht now. For make another operation click reset.");
-        }
-        if(this.isResultOnScreen){
-            this.warnLabel.setText("Please enter a number before click an operation");
-        }
+
     }
 
     @FXML
     private void timesOnClick(ActionEvent event) {
-        if(this.operation.equals("")){
-           this.operation = "x";
-           this.firstNum = this.tmpNumber;
-           this.tmpNumber = 0.0;
-           this.dotClicket = false;
-           this.decimalCounter = 1;
-           this.warnLabel.setText("");
-           
+        try {
+            if (this.operation.equals("")) {
+                this.operation = "x";
+                this.firstNum = this.tmpNumber;
+                this.tmpNumber = 0.0;
+                this.dotClicket = false;
+                this.decimalCounter = 1;
+                this.warnLabel.setText("");
+
+            } else {
+                this.warnLabel.setText("You are on " + this.operation + " operation riht now. For make another operation click reset.");
+            }
+            if (this.isResultOnScreen) {
+                this.warnLabel.setText("Please enter a number before click an operation");
+            }
+        } catch (Exception e) {
+            this.warnLabel.setText("Something went wrong");
         }
-        else{
-            this.warnLabel.setText("You are on " + this.operation + " operation riht now. For make another operation click reset.");
-        }
-        if(this.isResultOnScreen){
-            this.warnLabel.setText("Please enter a number before click an operation");
-        }
-        
     }
 
     @FXML
     private void devideOnClick(ActionEvent event) {
-        if(this.operation.equals("")){
-           this.operation = "/";
-           this.firstNum = this.tmpNumber;
-           this.tmpNumber = 0.0;
-           this.dotClicket = false;
-           this.decimalCounter = 1;
-           this.warnLabel.setText("");
-          
-        }
-        else{
-            this.warnLabel.setText("You are on " + this.operation + " operation riht now. For make another operation click reset.");
-        }
-        if(this.isResultOnScreen){
-            this.warnLabel.setText("Please enter a number before click an operation");
+        try {
+            if (this.operation.equals("")) {
+                this.operation = "/";
+                this.firstNum = this.tmpNumber;
+                this.tmpNumber = 0.0;
+                this.dotClicket = false;
+                this.decimalCounter = 1;
+                this.warnLabel.setText("");
+
+            } else {
+                this.warnLabel.setText("You are on " + this.operation + " operation riht now. For make another operation click reset.");
+            }
+            if (this.isResultOnScreen) {
+                this.warnLabel.setText("Please enter a number before click an operation");
+            }
+        } catch (Exception e) {
+            this.warnLabel.setText("Something went wrong");
         }
     }
-    
+
     @FXML
     private void powerOnClick(ActionEvent event) {
-        if(this.operation.equals("")){
-           this.operation = "x^y";
-           this.firstNum = this.tmpNumber;
-           this.tmpNumber = 0.0;
-           this.dotClicket = false;
-           this.decimalCounter = 1;
-           this.warnLabel.setText("");
-          
-        }
-        else{
-            this.warnLabel.setText("You are on " + this.operation + " operation riht now. For make another operation click reset.");
-        }
-        if(this.isResultOnScreen){
-            this.warnLabel.setText("Please enter a number before click an operation");
+        try {
+            if (this.operation.equals("")) {
+                this.operation = "x^y";
+                this.firstNum = this.tmpNumber;
+                this.tmpNumber = 0.0;
+                this.dotClicket = false;
+                this.decimalCounter = 1;
+                this.warnLabel.setText("");
+
+            } else {
+                this.warnLabel.setText("You are on " + this.operation + " operation riht now. For make another operation click reset.");
+            }
+            if (this.isResultOnScreen) {
+                this.warnLabel.setText("Please enter a number before click an operation");
+            }
+        } catch (Exception e) {
+            this.warnLabel.setText("Something went wrong");
         }
     }
 
     @FXML
     private void resetOnClick(ActionEvent event) {
-        
-                this.firstNum = 0.0;
-                this.secondNum = 0.0;
-                this.operation = "";
-                this.dotClicket = false;
-                this.decimalCounter = 1;
-                this.tmpNumber = 0.0;
-                this.warnLabel.setText("");
-                this.resultScreen.setText(this.firstNum.toString());
-                this.isResultOnScreen = false;
-    }
+        try {
 
-    @FXML
-    private void percentOnClick(ActionEvent event) {
-        if(this.isResultOnScreen){
-            this.warnLabel.setText("Please enter a number before click an operation");
+            this.firstNum = 0.0;
+            this.secondNum = 0.0;
+            this.operation = "";
+            this.dotClicket = false;
+            this.decimalCounter = 1;
+            this.tmpNumber = 0.0;
+            this.warnLabel.setText("");
+            this.resultScreen.setText(this.firstNum.toString());
+            this.isResultOnScreen = false;
+        } catch (Exception e) {
+            this.warnLabel.setText("Something went wrong");
         }
-        //----------------------------DEVAM-------------------------------------------------
     }
 
     @FXML
     private void nineOnClick(ActionEvent event) {
-        if(this.dotClicket){
-            this.tmpNumber = this.tmpNumber + (9.0/Math.pow(10, this.decimalCounter));
-            this.decimalCounter += 1;
-            this.resultScreen.setText(this.tmpNumber.toString());
+        try {
+            if (this.dotClicket) {
+                this.tmpNumber = this.tmpNumber + (9.0 / Math.pow(10, this.decimalCounter));
+                this.decimalCounter += 1;
+                this.resultScreen.setText(this.tmpNumber.toString());
+            } else {
+                this.tmpNumber = this.tmpNumber * 10 + 9;
+                this.resultScreen.setText(this.tmpNumber.toString());
+            }
+
+            this.isResultOnScreen = false;
+        } catch (Exception e) {
+            this.warnLabel.setText("Something went wrong");
         }
-        else{
-        this.tmpNumber = this.tmpNumber*10 +9;
-        this.resultScreen.setText(this.tmpNumber.toString());}
-        
-        this.isResultOnScreen = false;
     }
 
     @FXML
     private void sixOnClick(ActionEvent event) {
-        if(this.dotClicket){
-        this.tmpNumber = this.tmpNumber + (6.0/Math.pow(10, this.decimalCounter));
-            this.decimalCounter += 1;
-            this.resultScreen.setText(this.tmpNumber.toString());}
-        else{
-        this.tmpNumber = this.tmpNumber*10 + 6;
-        this.resultScreen.setText(this.tmpNumber.toString());}
-        this.isResultOnScreen = false;
+        try {
+            if (this.dotClicket) {
+                this.tmpNumber = this.tmpNumber + (6.0 / Math.pow(10, this.decimalCounter));
+                this.decimalCounter += 1;
+                this.resultScreen.setText(this.tmpNumber.toString());
+            } else {
+                this.tmpNumber = this.tmpNumber * 10 + 6;
+                this.resultScreen.setText(this.tmpNumber.toString());
+            }
+            this.isResultOnScreen = false;
+        } catch (Exception e) {
+            this.warnLabel.setText("Something went wrong");
+        }
     }
 
     @FXML
     private void threeOnAction(ActionEvent event) {
-        if(this.dotClicket){
-        this.tmpNumber = this.tmpNumber + (3.0/Math.pow(10, this.decimalCounter));
-            this.decimalCounter += 1;
-            this.resultScreen.setText(this.tmpNumber.toString());}
-        else{
-        this.tmpNumber = this.tmpNumber*10 +3;
-        this.resultScreen.setText(this.tmpNumber.toString());}
-        this.isResultOnScreen = false;
+        try {
+            if (this.dotClicket) {
+                this.tmpNumber = this.tmpNumber + (3.0 / Math.pow(10, this.decimalCounter));
+                this.decimalCounter += 1;
+                this.resultScreen.setText(this.tmpNumber.toString());
+            } else {
+                this.tmpNumber = this.tmpNumber * 10 + 3;
+                this.resultScreen.setText(this.tmpNumber.toString());
+            }
+            this.isResultOnScreen = false;
+        } catch (Exception e) {
+            this.warnLabel.setText("Something went wrong");
+        }
     }
 
     @FXML
-    private void equalOnAction(ActionEvent event) {
-        if(this.twoCalculation.contains(this.operation) ){
-            this.secondNum = this.tmpNumber;
-            System.out.println(this.firstNum +" " + this.operation + " " +this.secondNum);
-            if(this.operation.equals("+")){
-                this.result = this.firstNum + this.secondNum;
-                this.resultScreen.setText(this.result.toString());
-                this.firstNum = 0.0;
-                this.secondNum = 0.0;
-                this.operation = "";
-                this.dotClicket = false;
-                this.decimalCounter = 1;
-                this.tmpNumber = 0.0;
-                this.warnLabel.setText("");
-                this.ansNum = this.result;
-                this.isResultOnScreen = true;
-                
-                
-                
-                
-                
-                
-            }
-            else if(this.operation.equals("-")){
-                this.result = this.firstNum - this.secondNum;
-                this.resultScreen.setText(this.result.toString());
-                this.firstNum = 0.0;
-                this.secondNum = 0.0;
-                this.operation = "";
-                this.dotClicket = false;
-                this.decimalCounter = 1;
-                this.tmpNumber = 0.0;
-                this.warnLabel.setText("");
-                this.ansNum = this.result;
-                this.isResultOnScreen = true;
-                
-            
-            }
-            
-            else if(this.operation.equals("x")){
-                this.result = this.firstNum * this.secondNum;
-                this.resultScreen.setText(this.result.toString());
-                this.firstNum = 0.0;
-                this.secondNum = 0.0;
-                this.operation = "";
-                this.dotClicket = false;
-                this.decimalCounter = 1;
-                this.tmpNumber = 0.0;
-                this.warnLabel.setText("");
-                this.ansNum = this.result;
-                this.isResultOnScreen = true;
-                
-            
-            }
-            else if(this.operation.equals("/")){
-                this.result = this.firstNum / this.secondNum;
-                this.resultScreen.setText(this.result.toString());
-                this.firstNum = 0.0;
-                this.secondNum = 0.0;
-                this.operation = "";
-                this.dotClicket = false;
-                this.decimalCounter = 1;
-                this.tmpNumber = 0.0;
-                this.warnLabel.setText("");
-                this.isResultOnScreen = true;
-            
-            }
-            
-            else if(this.operation.equals("x^y")){
-                this.result = Math.pow( this.firstNum , this.secondNum);
-                this.resultScreen.setText(this.result.toString());
-                this.firstNum = 0.0;
-                this.secondNum = 0.0;
-                this.operation = "";
-                this.dotClicket = false;
-                this.decimalCounter = 1;
-                this.tmpNumber = 0.0;
-                this.warnLabel.setText("");
-                this.ansNum = this.result;
-                this.isResultOnScreen = true;
-            
-            }
-            else{
+    private void equalOnAction(ActionEvent event) throws InterruptedException {
+
+        System.out.println(this.operation + this.oneSecCalculation.contains(this.operation) + " ");
+
+        try {
+
+            //Çift sayılı ilemler
+            if (this.twoCalculation.contains(this.operation)) {
+                this.secondNum = this.tmpNumber;
+                System.out.println(this.firstNum + " " + this.operation + " " + this.secondNum);
+                if (this.operation.equals("+")) {
+                    this.result = this.firstNum + this.secondNum;
+                    this.resultScreen.setText(this.result.toString());
+                    this.firstNum = 0.0;
+                    this.secondNum = 0.0;
+                    this.operation = "";
+                    this.dotClicket = false;
+                    this.decimalCounter = 1;
+                    this.tmpNumber = 0.0;
+                    this.warnLabel.setText("");
+                    this.ansNum = this.result;
+                    this.isResultOnScreen = true;
+
+                } else if (this.operation.equals("-")) {
+                    this.result = this.firstNum - this.secondNum;
+                    this.resultScreen.setText(this.result.toString());
+                    this.firstNum = 0.0;
+                    this.secondNum = 0.0;
+                    this.operation = "";
+                    this.dotClicket = false;
+                    this.decimalCounter = 1;
+                    this.tmpNumber = 0.0;
+                    this.warnLabel.setText("");
+                    this.ansNum = this.result;
+                    this.isResultOnScreen = true;
+
+                } else if (this.operation.equals("x")) {
+                    this.result = this.firstNum * this.secondNum;
+                    this.resultScreen.setText(this.result.toString());
+                    this.firstNum = 0.0;
+                    this.secondNum = 0.0;
+                    this.operation = "";
+                    this.dotClicket = false;
+                    this.decimalCounter = 1;
+                    this.tmpNumber = 0.0;
+                    this.warnLabel.setText("");
+                    this.ansNum = this.result;
+                    this.isResultOnScreen = true;
+
+                } else if (this.operation.equals("/")) {
+                    this.result = this.firstNum / this.secondNum;
+                    this.resultScreen.setText(this.result.toString());
+                    this.firstNum = 0.0;
+                    this.secondNum = 0.0;
+                    this.operation = "";
+                    this.dotClicket = false;
+                    this.decimalCounter = 1;
+                    this.tmpNumber = 0.0;
+                    this.warnLabel.setText("");
+                    this.isResultOnScreen = true;
+
+                } else if (this.operation.equals("x^y")) {
+                    this.result = Math.pow(this.firstNum, this.secondNum);
+                    this.resultScreen.setText(this.result.toString());
+                    this.firstNum = 0.0;
+                    this.secondNum = 0.0;
+                    this.operation = "";
+                    this.dotClicket = false;
+                    this.decimalCounter = 1;
+                    this.tmpNumber = 0.0;
+                    this.warnLabel.setText("");
+                    this.ansNum = this.result;
+                    this.isResultOnScreen = true;
+
+                } else {
+                    this.warnLabel.setText("Enter an operation!!");
+
+                }
+
+            }//Tek sayılı ilk sayı inputu alınan işlemler
+            else if (this.oneFirCalculation.contains(this.operation)) {
+
+                if (this.operation.equals("fac")) {
+                    Double tmp = 1.0;
+                    for (Double i = this.firstNum; i > 0.0; i--) {
+                        tmp *= i;
+                    }
+
+                    this.result = tmp;
+                    this.resultScreen.setText(this.result.toString());
+                    this.firstNum = 0.0;
+                    this.secondNum = 0.0;
+                    this.operation = "";
+                    this.dotClicket = false;
+                    this.decimalCounter = 1;
+                    this.tmpNumber = 0.0;
+                    this.warnLabel.setText("");
+                    this.ansNum = this.result;
+                    this.isResultOnScreen = true;
+
+                } else if (this.operation.equals("per")) {
+
+                    this.result = this.firstNum / 100.0;
+                    this.resultScreen.setText(this.result.toString());
+                    this.firstNum = 0.0;
+                    this.secondNum = 0.0;
+                    this.operation = "";
+                    this.dotClicket = false;
+                    this.decimalCounter = 1;
+                    this.tmpNumber = 0.0;
+                    this.warnLabel.setText("");
+                    this.ansNum = this.result;
+                    this.isResultOnScreen = true;
+
+                } else if (this.operation.equals("sqrt")) {
+                    this.result = Math.pow(this.firstNum, 1.0 / 2.0);
+                    this.resultScreen.setText(this.result.toString());
+                    this.firstNum = 0.0;
+                    this.secondNum = 0.0;
+                    this.operation = "";
+                    this.dotClicket = false;
+                    this.decimalCounter = 1;
+                    this.tmpNumber = 0.0;
+                    this.warnLabel.setText("");
+                    this.ansNum = this.result;
+                    this.isResultOnScreen = true;
+                } else {
+                    this.warnLabel.setText("Enter an operation!!");
+                }
+            }//Tek sayılı ilk işlem inputu alınan işlemler
+            else if (this.oneSecCalculation.contains(this.operation)) {
+                /*
+        this.oneFirCalculation.add("sin");
+        this.oneFirCalculation.add("cos");
+        this.oneFirCalculation.add("tan");
+        this.oneFirCalculation.add("cot");
+        this.oneFirCalculation.add("log");
+        this.oneFirCalculation.add("ln");
+                 */
+                System.out.println("içerdeyim 1");
+
+                if (this.operation.equals("sin")) {
+
+                    Double angleInRadians = Math.toRadians(this.tmpNumber); // Convert degrees to radians
+                    Double value = Math.sin(angleInRadians);
+                    System.out.println(angleInRadians + " " + value);
+                    this.result = value;
+                    this.resultScreen.setText(this.result.toString());
+                    this.firstNum = 0.0;
+                    this.secondNum = 0.0;
+                    this.operation = "";
+                    this.dotClicket = false;
+                    this.decimalCounter = 1;
+                    this.tmpNumber = 0.0;
+                    this.warnLabel.setText("");
+                    this.ansNum = this.result;
+                    this.isResultOnScreen = true;
+                } else if (this.operation.equals("cos")) {
+                    Double angleInRadians = Math.toRadians(this.tmpNumber); // Convert degrees to radians
+                    Double value = Math.cos(angleInRadians);
+                    this.result = value;
+                    this.resultScreen.setText(this.result.toString());
+                    this.firstNum = 0.0;
+                    this.secondNum = 0.0;
+                    this.operation = "";
+                    this.dotClicket = false;
+                    this.decimalCounter = 1;
+                    this.tmpNumber = 0.0;
+                    this.warnLabel.setText("");
+                    this.ansNum = this.result;
+                    this.isResultOnScreen = true;
+
+                } else if (this.operation.equals("tan")) {
+                    Double angleInRadians = Math.toRadians(this.tmpNumber); // Convert degrees to radians
+                    Double value = Math.tan(angleInRadians);
+                    this.result = value;
+                    this.resultScreen.setText(this.result.toString());
+                    this.firstNum = 0.0;
+                    this.secondNum = 0.0;
+                    this.operation = "";
+                    this.dotClicket = false;
+                    this.decimalCounter = 1;
+                    this.tmpNumber = 0.0;
+                    this.warnLabel.setText("");
+                    this.ansNum = this.result;
+                    this.isResultOnScreen = true;
+
+                } else if (this.operation.equals("cot")) {
+                    Double angleInRadians = Math.toRadians(this.tmpNumber); // Convert degrees to radians
+                    Double value = 1.0 / Math.tan(angleInRadians);
+                    this.result = value;
+                    this.resultScreen.setText(this.result.toString());
+                    this.firstNum = 0.0;
+                    this.secondNum = 0.0;
+                    this.operation = "";
+                    this.dotClicket = false;
+                    this.decimalCounter = 1;
+                    this.tmpNumber = 0.0;
+                    this.warnLabel.setText("");
+                    this.ansNum = this.result;
+                    this.isResultOnScreen = true;
+
+                } else if (this.operation.equals("log")) {
+                    this.result = Math.log10(this.tmpNumber);
+                    this.resultScreen.setText(this.result.toString());
+                    this.firstNum = 0.0;
+                    this.secondNum = 0.0;
+                    this.operation = "";
+                    this.dotClicket = false;
+                    this.decimalCounter = 1;
+                    this.tmpNumber = 0.0;
+                    this.warnLabel.setText("");
+                    this.ansNum = this.result;
+                    this.isResultOnScreen = true;
+
+                } else if (this.operation.equals("ln")) {
+                    this.result = Math.log(this.tmpNumber);
+                    this.resultScreen.setText(this.result.toString());
+                    this.firstNum = 0.0;
+                    this.secondNum = 0.0;
+                    this.operation = "";
+                    this.dotClicket = false;
+                    this.decimalCounter = 1;
+                    this.tmpNumber = 0.0;
+                    this.warnLabel.setText("");
+                    this.ansNum = this.result;
+                    this.isResultOnScreen = true;
+                } else {
+                    this.warnLabel.setText("Enter an operation!!");
+                }
+
+            } else {
                 this.warnLabel.setText("Enter an operation!!");
-            
             }
-            
-        }else if(this.oneCalculation.contains(this.operation)){
-            //---------------------------------------------------------Tek sayılı işlemler ile tamamlanacak-----------------------------------------------------------
-        
-        }else{
-            this.warnLabel.setText("Enter an operation!!");
+
+        } catch (Exception e) {
+            this.warnLabel.setText("Something went wrong");
+            Thread.sleep(3000);
+
+        } finally {
+            this.warnLabel.setText("Click the reset button to make new calculation!!");
+        }
+    }
+
+    @FXML
+    private void facOnAction(ActionEvent event) {
+        try {
+            if (this.isResultOnScreen) {
+                this.warnLabel.setText("Please enter a number before click an operation");
+            }
+
+            if (this.operation.equals("")) {
+                this.operation = "fac";
+                this.firstNum = this.tmpNumber;
+                this.tmpNumber = 0.0;
+                this.dotClicket = false;
+                this.decimalCounter = 1;
+                this.warnLabel.setText("Enter the = button to calculate " + this.firstNum + "!");
+
+            } else {
+                this.warnLabel.setText("You are on " + this.operation + " operation riht now. For make another operation click reset.");
+            }
+        } catch (Exception e) {
+            this.warnLabel.setText("Something went wrong");
+        }
+    }
+
+    @FXML
+    private void percentOnClick(ActionEvent event) {
+        try {
+            if (this.isResultOnScreen) {
+                this.warnLabel.setText("Please enter a number before click an operation");
+            }
+            //----------------------------DEVAM-------------------------------------------------
+            if (this.operation.equals("")) {
+                this.operation = "per";
+                this.firstNum = this.tmpNumber;
+                this.tmpNumber = 0.0;
+                this.dotClicket = false;
+                this.decimalCounter = 1;
+                this.warnLabel.setText("");
+                this.warnLabel.setText("Enter click the = button to calculate " + this.firstNum + "%");
+
+            } else {
+                this.warnLabel.setText("You are on " + this.operation + " operation riht now. For make another operation click reset.");
+            }
+        } catch (Exception e) {
+            this.warnLabel.setText("Something went wrong");
         }
     }
 
     @FXML
     private void piNumOnClick(ActionEvent event) {
-        this.tmpNumber += Math.PI;
-        this.resultScreen.setText(this.tmpNumber.toString());
-        this.isResultOnScreen = false;
+        try {
+            this.tmpNumber += Math.PI;
+            this.resultScreen.setText(this.tmpNumber.toString());
+            this.isResultOnScreen = false;
+        } catch (Exception e) {
+            this.warnLabel.setText("Something went wrong");
+        }
     }
 
     @FXML
     private void eightOnAction(ActionEvent event) {
-        if(this.dotClicket){
-        this.tmpNumber = this.tmpNumber + (8.0/Math.pow(10, this.decimalCounter));
-            this.decimalCounter += 1;
-            this.resultScreen.setText(this.tmpNumber.toString());}
-        else{
-        this.tmpNumber = this.tmpNumber*10 +8;
-        
-        this.resultScreen.setText(this.tmpNumber.toString());}
-        this.isResultOnScreen = false;
+        try {
+            if (this.dotClicket) {
+                this.tmpNumber = this.tmpNumber + (8.0 / Math.pow(10, this.decimalCounter));
+                this.decimalCounter += 1;
+                this.resultScreen.setText(this.tmpNumber.toString());
+            } else {
+                this.tmpNumber = this.tmpNumber * 10 + 8;
+
+                this.resultScreen.setText(this.tmpNumber.toString());
+            }
+            this.isResultOnScreen = false;
+        } catch (Exception e) {
+            this.warnLabel.setText("Something went wrong");
+        }
     }
 
     @FXML
     private void fiveOnAction(ActionEvent event) {
-        if(this.dotClicket){
-        this.tmpNumber = this.tmpNumber + (5.0/Math.pow(10, this.decimalCounter));
-            this.decimalCounter += 1;
-            this.resultScreen.setText(this.tmpNumber.toString());}
-        else{
-        this.tmpNumber = this.tmpNumber*10 +5;
-        this.resultScreen.setText(this.tmpNumber.toString());}
-        this.isResultOnScreen = false;
+        try {
+            if (this.dotClicket) {
+                this.tmpNumber = this.tmpNumber + (5.0 / Math.pow(10, this.decimalCounter));
+                this.decimalCounter += 1;
+                this.resultScreen.setText(this.tmpNumber.toString());
+            } else {
+                this.tmpNumber = this.tmpNumber * 10 + 5;
+                this.resultScreen.setText(this.tmpNumber.toString());
+            }
+            this.isResultOnScreen = false;
+        } catch (Exception e) {
+            this.warnLabel.setText("Something went wrong");
+        }
     }
 
     @FXML
     private void twoOnAction(ActionEvent event) {
-        if(this.dotClicket){
-            this.tmpNumber = this.tmpNumber + (2.0/Math.pow(10, this.decimalCounter));
-            this.decimalCounter += 1;
-            this.resultScreen.setText(this.tmpNumber.toString());
+        try {
+            if (this.dotClicket) {
+                this.tmpNumber = this.tmpNumber + (2.0 / Math.pow(10, this.decimalCounter));
+                this.decimalCounter += 1;
+                this.resultScreen.setText(this.tmpNumber.toString());
+            } else {
+                this.tmpNumber = this.tmpNumber * 10 + 2;
+                this.resultScreen.setText(this.tmpNumber.toString());
+            }
+            this.isResultOnScreen = false;
+        } catch (Exception e) {
+            this.warnLabel.setText("Something went wrong");
         }
-        else{
-        this.tmpNumber = this.tmpNumber*10 +2;
-        this.resultScreen.setText(this.tmpNumber.toString());}
-        this.isResultOnScreen = false;
     }
 
     @FXML
     private void dotOnClick(ActionEvent event) {
-        this.dotClicket = true;
+        try {
+            this.dotClicket = true;
+        } catch (Exception e) {
+            this.warnLabel.setText("Something went wrong");
+        }
     }
 
     @FXML
     private void eNumOnClick(ActionEvent event) {
-        this.tmpNumber += Math.E;
-        this.resultScreen.setText(this.tmpNumber.toString());
-        this.isResultOnScreen = false;
-    }
-
-    @FXML
-    private void lnOnClick(ActionEvent event) {
-        if(this.isResultOnScreen){
-            this.warnLabel.setText("Please enter a number before click an operation");
+        try {
+            this.tmpNumber += Math.E;
+            this.resultScreen.setText(this.tmpNumber.toString());
+            this.isResultOnScreen = false;
+        } catch (Exception e) {
+            this.warnLabel.setText("Something went wrong");
         }
-        //------------------------------------------------DEVAM------------------------------------
     }
 
     @FXML
     private void sevenOnClick(ActionEvent event) {
-        if(this.dotClicket){
-        this.tmpNumber = this.tmpNumber + (7.0/Math.pow(10, this.decimalCounter));
-            this.decimalCounter += 1;
-            this.resultScreen.setText(this.tmpNumber.toString());}
-        else{
-        this.tmpNumber = this.tmpNumber*10 +7;
-        this.resultScreen.setText(this.tmpNumber.toString());}
-    }
-
-    @FXML
-    private void logOnClick(ActionEvent event) {
-        if(this.isResultOnScreen){
-            this.warnLabel.setText("Please enter a number before click an operation");
+        try {
+            if (this.dotClicket) {
+                this.tmpNumber = this.tmpNumber + (7.0 / Math.pow(10, this.decimalCounter));
+                this.decimalCounter += 1;
+                this.resultScreen.setText(this.tmpNumber.toString());
+            } else {
+                this.tmpNumber = this.tmpNumber * 10 + 7;
+                this.resultScreen.setText(this.tmpNumber.toString());
+            }
+        } catch (Exception e) {
+            this.warnLabel.setText("Something went wrong");
         }
-        //------------------------------------------------------------DEVAM----------------------------------------------
-        
     }
 
     @FXML
     private void fourOnClick(ActionEvent event) {
-        if(this.dotClicket){
-        this.tmpNumber = this.tmpNumber + (4.0/Math.pow(10, this.decimalCounter));
-            this.decimalCounter += 1;
-            this.resultScreen.setText(this.tmpNumber.toString());}
-        else{
-        this.tmpNumber = this.tmpNumber*10 +4;
-        this.resultScreen.setText(this.tmpNumber.toString());}
+        try {
+            if (this.dotClicket) {
+                this.tmpNumber = this.tmpNumber + (4.0 / Math.pow(10, this.decimalCounter));
+                this.decimalCounter += 1;
+                this.resultScreen.setText(this.tmpNumber.toString());
+            } else {
+                this.tmpNumber = this.tmpNumber * 10 + 4;
+                this.resultScreen.setText(this.tmpNumber.toString());
+            }
+        } catch (Exception e) {
+            this.warnLabel.setText("Something went wrong");
+        }
     }
 
     @FXML
     private void oneOnClick(ActionEvent event) {
-        if(this.dotClicket){
-        this.tmpNumber = this.tmpNumber + (1.0/Math.pow(10, this.decimalCounter));
-            this.decimalCounter += 1;
-            this.resultScreen.setText(this.tmpNumber.toString());}
-        else{
-        this.tmpNumber = this.tmpNumber*10 +1;
-        this.resultScreen.setText(this.tmpNumber.toString());}
+        try {
+            if (this.dotClicket) {
+                this.tmpNumber = this.tmpNumber + (1.0 / Math.pow(10, this.decimalCounter));
+                this.decimalCounter += 1;
+                this.resultScreen.setText(this.tmpNumber.toString());
+            } else {
+                this.tmpNumber = this.tmpNumber * 10 + 1;
+                this.resultScreen.setText(this.tmpNumber.toString());
+            }
+        } catch (Exception e) {
+            this.warnLabel.setText("Something went wrong");
+        }
     }
 
     @FXML
     private void sqrRootOnClick(ActionEvent event) {
-        if(this.isResultOnScreen){
-            this.warnLabel.setText("Please enter a number before click an operation");
+        try {
+            if (this.isResultOnScreen) {
+                this.warnLabel.setText("Please enter a number before click an operation");
+            }
+            if (this.operation.equals("")) {
+                this.operation = "sqrt";
+                this.firstNum = this.tmpNumber;
+                this.tmpNumber = 0.0;
+                this.dotClicket = false;
+                this.decimalCounter = 1;
+                this.warnLabel.setText("Click the = button to calculate " + this.firstNum + "^(1/2)");
+
+            } else {
+                this.warnLabel.setText("You are on " + this.operation + " operation riht now. For make another operation click reset.");
+            }
+        } catch (Exception e) {
+            this.warnLabel.setText("Something went wrong");
         }
-        //--------------------------------------------DEVAM--------------------------------
     }
 
     @FXML
     private void zeroOnClick(ActionEvent event) {
-        if(this.dotClicket){
-        this.tmpNumber = this.tmpNumber + (0.0/Math.pow(10, this.decimalCounter));
-            this.decimalCounter += 1;
-            this.resultScreen.setText(this.tmpNumber.toString());}
-        else{
-        this.tmpNumber = this.tmpNumber*10 ;
-        this.resultScreen.setText(this.tmpNumber.toString());}
+        try {
+            if (this.dotClicket) {
+                this.tmpNumber = this.tmpNumber + (0.0 / Math.pow(10, this.decimalCounter));
+                this.decimalCounter += 1;
+                this.resultScreen.setText(this.tmpNumber.toString());
+            } else {
+                this.tmpNumber = this.tmpNumber * 10;
+                this.resultScreen.setText(this.tmpNumber.toString());
+            }
+        } catch (Exception e) {
+            this.warnLabel.setText("Something went wrong");
+        }
     }
-
-    
 
     @FXML
     private void answerOnClick(ActionEvent event) {
-        
-        if(this.operation.equals("") && this.result == null){
-            this.warnLabel.setText("There was no answer");
+        try {
+
+            if (this.operation.equals("") && this.result == null) {
+                this.warnLabel.setText("There was no answer");
+            }
+
+            if (!this.operation.equals("") && this.result != null) {
+                this.secondNum = this.ansNum;
+                this.tmpNumber = this.ansNum;
+                this.resultScreen.setText(this.secondNum.toString());
+
+                System.out.println(this.firstNum + " " + this.secondNum + " ans number" + this.ansNum);
+            }
+            if (!this.operation.equals("") && this.result == null) {
+                this.warnLabel.setText("There was no answer");
+            }
+            if (this.operation.equals("") && this.result != null) {
+                this.firstNum = this.ansNum;
+                this.tmpNumber = this.ansNum;
+
+                this.resultScreen.setText(this.firstNum.toString());
+
+                System.out.println(this.firstNum + " " + this.secondNum + " ans number" + this.ansNum);
+
+            }
+        } catch (Exception e) {
+            this.warnLabel.setText("Something went wrong");
         }
-        
-        if(!this.operation.equals("") && this.result != null){
-            this.tmpNumber += this.ansNum;
-             this.resultScreen.setText(this.tmpNumber.toString());
-            
-            System.out.println(this.firstNum+" "+this.secondNum + " ans number" + this.ansNum);
-        }
-        if(!this.operation.equals("") && this.result == null){
-             this.warnLabel.setText("There was no answer");
-        }
-        if(this.operation.equals("") && this.result != null){
-            this.tmpNumber += this.ansNum;
-            
-            this.resultScreen.setText(this.tmpNumber.toString());
-            
-            System.out.println(this.firstNum+" "+this.secondNum + " ans number" + this.ansNum);
-            
-        }
-        
+
     }
 
     @FXML
     private void cotOnClick(ActionEvent event) {
-        if(this.isResultOnScreen){
-            this.warnLabel.setText("Please enter a number before click an operation");
+        try {
+            if (this.isResultOnScreen) {
+                this.warnLabel.setText("Please enter a number before click an operation");
+            }
+            if (this.operation.equals("")) {
+                this.operation = "cot";
+                this.firstNum = this.tmpNumber;
+                this.tmpNumber = 0.0;
+                this.dotClicket = false;
+                this.decimalCounter = 1;
+                this.warnLabel.setText("cot");
+
+            } else {
+                this.warnLabel.setText("You are on " + this.operation + " operation riht now. For make another operation click reset.");
+            }
+        } catch (Exception e) {
+            this.warnLabel.setText("Something went wrong");
         }
-     //--------------------------------------------DEVAM-------------------------------------
     }
 
     @FXML
     private void tanOnClick(ActionEvent event) {
-        if(this.isResultOnScreen){
-            this.warnLabel.setText("Please enter a number before click an operation");
+        try {
+            if (this.isResultOnScreen) {
+                this.warnLabel.setText("Please enter a number before click an operation");
+            }
+            if (this.operation.equals("")) {
+                this.operation = "tan";
+                this.firstNum = this.tmpNumber;
+                this.tmpNumber = 0.0;
+                this.dotClicket = false;
+                this.decimalCounter = 1;
+                this.warnLabel.setText("tan");
+
+            } else {
+                this.warnLabel.setText("You are on " + this.operation + " operation riht now. For make another operation click reset.");
+            }
+        } catch (Exception e) {
+            this.warnLabel.setText("Something went wrong");
         }
-        //--------------------------------------------DEVAM-------------------------------------
     }
 
     @FXML
     private void cosOnClick(ActionEvent event) {
-        if(this.isResultOnScreen){
-            this.warnLabel.setText("Please enter a number before click an operation");
+        try {
+            if (this.isResultOnScreen) {
+                this.warnLabel.setText("Please enter a number before click an operation");
+            }
+            if (this.operation.equals("")) {
+                this.operation = "cos";
+                this.firstNum = this.tmpNumber;
+                this.tmpNumber = 0.0;
+                this.dotClicket = false;
+                this.decimalCounter = 1;
+                this.warnLabel.setText("cos");
+
+            } else {
+                this.warnLabel.setText("You are on " + this.operation + " operation riht now. For make another operation click reset.");
+            }
+        } catch (Exception e) {
+            this.warnLabel.setText("Something went wrong");
         }
-        //--------------------------------------------DEVAM-------------------------------------
     }
 
     @FXML
     private void sinOnClick(ActionEvent event) {
-        if(this.isResultOnScreen){
-            this.warnLabel.setText("Please enter a number before click an operation");
+        try {
+            if (this.isResultOnScreen) {
+                this.warnLabel.setText("Please enter a number before click an operation");
+            }
+            if (this.operation.equals("")) {
+                this.operation = "sin";
+                this.firstNum = this.tmpNumber;
+                this.tmpNumber = 0.0;
+                this.dotClicket = false;
+                this.decimalCounter = 1;
+                this.warnLabel.setText("sin");
+
+            } else {
+                this.warnLabel.setText("You are on " + this.operation + " operation riht now. For make another operation click reset.");
+            }
+        } catch (Exception e) {
+            this.warnLabel.setText("Something went wrong");
         }
-        //--------------------------------------------DEVAM-------------------------------------
     }
-    
+
+    @FXML
+    private void logOnClick(ActionEvent event) {
+        try {
+            if (this.isResultOnScreen) {
+                this.warnLabel.setText("Please enter a number before click an operation");
+            }
+            if (this.operation.equals("")) {
+                this.operation = "log";
+                this.firstNum = this.tmpNumber;
+                this.tmpNumber = 0.0;
+                this.dotClicket = false;
+                this.decimalCounter = 1;
+                this.warnLabel.setText("log");
+
+            } else {
+                this.warnLabel.setText("You are on " + this.operation + " operation riht now. For make another operation click reset.");
+            }
+        } catch (Exception e) {
+            this.warnLabel.setText("Something went wrong");
+        }
+    }
+
+    @FXML
+    private void lnOnClick(ActionEvent event) {
+        try {
+            if (this.isResultOnScreen) {
+                this.warnLabel.setText("Please enter a number before click an operation");
+            }
+            //------------------------------------------------DEVAM------------------------------------
+            if (this.operation.equals("")) {
+                this.operation = "ln";
+                this.firstNum = this.tmpNumber;
+                this.tmpNumber = 0.0;
+                this.dotClicket = false;
+                this.decimalCounter = 1;
+                this.warnLabel.setText("ln");
+
+            } else {
+                this.warnLabel.setText("You are on " + this.operation + " operation riht now. For make another operation click reset.");
+            }
+        } catch (Exception e) {
+            this.warnLabel.setText("Something went wrong");
+        }
+    }
 }
